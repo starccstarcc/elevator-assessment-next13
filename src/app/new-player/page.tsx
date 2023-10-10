@@ -1,20 +1,19 @@
-'use client';
+"use client";
 
 import { AppRoutes } from "@/lib/utils/constants/AppRoutes";
 import { createPlayerFn } from "@/lib/utils/constants/queryFns";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { motion } from 'framer-motion';
 import { containerVariant } from "@/lib/framer-motion/variants";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function NewPlayerPage() {
-  const [isCreating, setIsCreating] = useState(false);
-  const [name, setName] = useState('');
-  const [teamName, setTeamName] = useState('');
-  const [salary, setSalary] = useState('');
-  const [image, setImage] = useState('');
+  const [name, setName] = useState("");
+  const [teamName, setTeamName] = useState("");
+  const [salary, setSalary] = useState("");
+  const [image, setImage] = useState("");
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -23,8 +22,8 @@ export default function NewPlayerPage() {
     mutationFn: createPlayerFn,
     onSuccess: () => {
       router.push(AppRoutes.Home);
-      queryClient.invalidateQueries(['players']);
-    }
+      queryClient.invalidateQueries(["players"]);
+    },
   });
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -53,7 +52,7 @@ export default function NewPlayerPage() {
       >
         <input
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           type="text"
           placeholder="Player Name"
           className="input-primary"
@@ -61,7 +60,7 @@ export default function NewPlayerPage() {
         />
         <input
           value={teamName}
-          onChange={e => setTeamName(e.target.value)}
+          onChange={(e) => setTeamName(e.target.value)}
           type="text"
           placeholder="Team Name"
           className="input-primary"
@@ -69,7 +68,7 @@ export default function NewPlayerPage() {
         />
         <input
           value={salary}
-          onChange={e => setSalary(e.target.value)}
+          onChange={(e) => setSalary(e.target.value)}
           type="text"
           placeholder="Salary"
           className="input-primary"
@@ -77,17 +76,17 @@ export default function NewPlayerPage() {
         />
         <input
           value={image}
-          onChange={e => setImage(e.target.value)}
+          onChange={(e) => setImage(e.target.value)}
           type="text"
           placeholder="Image Url"
           className="input-primary"
           required
         />
-        <div className="flex gap-1 justify-center">
-          <Link href=".." className="btn-primary">
+        <div className="flex gap-1 justify-end">
+          <Link href=".." className="btn-secondary">
             Cancel
           </Link>
-          <button disabled={isCreating} type="submit" className="btn-primary">
+          <button type="submit" className="btn-primary">
             Create
           </button>
         </div>

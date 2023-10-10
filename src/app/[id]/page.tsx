@@ -1,43 +1,44 @@
-"use client";
+'use client';
 
 import { FormEvent, useEffect, useState } from "react";
 import { notFound, useParams, useRouter } from "next/navigation";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import { Player } from "@prisma/client";
 import { getPlayerFn, updatePlayerFn } from "@/lib/utils/constants/queryFns";
 import { AppRoutes } from "@/lib/utils/constants/AppRoutes";
 import Loading from "@/app/components/Loading/Loading";
 import { containerVariant } from "@/lib/framer-motion/variants";
+import Link from "next/link";
 
 export default function UpdatePlayerPage() {
-  const [name, setName] = useState("");
-  const [teamName, setTeamName] = useState("");
-  const [salary, setSalary] = useState("");
-  const [image, setImage] = useState("");
+  const [name, setName] = useState('');
+  const [teamName, setTeamName] = useState('');
+  const [salary, setSalary] = useState('');
+  const [image, setImage] = useState('');
 
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id } = useParams();
 
   const { data, isLoading: valuesLoading } = useQuery<Player>({
-    queryKey: ["getPlayer", id],
-    queryFn: () => getPlayerFn(id as string),
+    queryKey: ['getPlayer', id],
+    queryFn: () => getPlayerFn(id as string)
   });
 
   const updatePlayerMutation = useMutation({
     // @ts-ignore
     mutationFn: updatePlayerFn,
     onMutate: async (newPlayer) => {
-      await queryClient.cancelQueries({ queryKey: ["players"] });
+      await queryClient.cancelQueries({ queryKey: ['players'] });
 
-      const previousPlayers = queryClient.getQueryData<Player[]>(["players"]);
+      const previousPlayers = queryClient.getQueryData<Player[]>(['players']);
 
       if (previousPlayers) {
-        const updatedPlayers: Player[] = [...previousPlayers].map((player) =>
+        const updatedPlayers: Player[] = [...previousPlayers].map(player =>
           player.id === newPlayer.id ? { ...player, ...newPlayer } : player
         );
-        queryClient.setQueryData<Player[]>(["players"], updatedPlayers);
+        queryClient.setQueryData<Player[]>(['players'], updatedPlayers);
       }
 
       return { previousPlayers };
@@ -45,16 +46,16 @@ export default function UpdatePlayerPage() {
     onError: (
       err,
       variables,
-      context: { previousPlayers?: Player[] | undefined }
+      context: { previousPlayers?: Player[] | undefined; }
     ) => {
-      queryClient.setQueryData<Player[]>(["players"], context.previousPlayers);
+      queryClient.setQueryData<Player[]>(['players'], context.previousPlayers);
     },
     onSuccess: () => {
       router.push(AppRoutes.Home);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["players"] });
-    },
+      queryClient.invalidateQueries({ queryKey: ['players'] });
+    }
   });
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -65,7 +66,7 @@ export default function UpdatePlayerPage() {
       name,
       teamName,
       salary,
-      image,
+      image
     });
   }
 
@@ -102,36 +103,36 @@ export default function UpdatePlayerPage() {
       >
         <input
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={e => setName(e.target.value)}
           type="text"
           className="input-primary"
           required
         />
         <input
           value={teamName}
-          onChange={(e) => setTeamName(e.target.value)}
+          onChange={e => setTeamName(e.target.value)}
           type="text"
           className="input-primary"
           required
         />
         <input
           value={salary}
-          onChange={(e) => setSalary(e.target.value)}
+          onChange={e => setSalary(e.target.value)}
           type="text"
           className="input-primary"
           required
         />
         <input
           value={image}
-          onChange={(e) => setImage(e.target.value)}
+          onChange={e => setImage(e.target.value)}
           type="text"
           className="input-primary"
           required
         />
         <div className="flex gap-1 justify-end">
-          <button className="btn-secondary" onClick={() => router.back()}>
+          <Link href=".." className="btn-secondary">
             Cancel
-          </button>
+          </Link>
           <button
             disabled={updatePlayerMutation.isLoading}
             type="submit"

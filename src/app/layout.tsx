@@ -22,9 +22,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} min-h-screen font-medium`}
       >
-        <header className="flex justify-between items-center p-4 bg-white shadow">
+        <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-400 shadow">
           <Link href={AppRoutes.Home}>
-            <h1 className="text-2xl font-bold">Players</h1>
+            <h1 className="text-2xl font-bold text-white dark:text-black">Players</h1>
           </Link>
         </header>
 

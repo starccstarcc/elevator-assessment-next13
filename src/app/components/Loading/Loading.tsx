@@ -10,7 +10,7 @@ export default function Loading() {
         width='70'
         height='70'
         viewBox='0 0 16 16'
-        className='fill-black'
+        className='fill-black dark:fill-white'
       >
         <motion.path
           initial={{ opacity: 0, pathLength: 0 }}
