@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer components {
+  .btn-primary {
+    @apply border-2 border-black font-bold text-black px-2 py-1 rounded hover:bg-black hover:text-primary outline-none disabled:bg-slate-500 disabled:opacity-60;
+  }
+
+  .input-primary {
+    @apply border border-black bg-white rounded px-2 py-1 outline-none focus-within:border-secondary shadow-md;
+  }
+
+  .select-primary {
+    @apply w-full rounded-md border border-black shadow-md focus:border-secondary focus-within:border-secondary py-2 focus:outline-none focus:ring-2 focus:ring-secondary;
+  }
+}
